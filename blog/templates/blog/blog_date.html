@@ -1,0 +1,8 @@
+<!--blog_date.html页面继承blog_list.html页面-->
+{% extends 'blog/blog_list.html' %}
+<!--页面标题（日期归档）-->
+{% block title %}日期归档{% endblock %}
+{% block blog_list_title %}
+	<!--面板标题（日期归档：xxxx年xx月 所有博客）-->
+    日期归档：{{ blog_date_title }} <a href="{% url 'blog:blog_list' %}">所有博客</a>
+{% endblock %}

@@ -1,0 +1,10 @@
+<!--blog_type.html页面继承blog_list.html页面-->
+{% extends 'blog/blog_list.html' %} 
+<!--页面标题（类型名称）-->
+{% block title %}{{ blog_type.type_name }}{% endblock %} 
+{% block blog_list_title %}
+	<!--面板标题（类型名称 所有博客）-->
+    {{ blog_type.type_name }} <a href="{% url 'blog:blog_list' %}">所有博客</a>
+{% endblock %}
+
+

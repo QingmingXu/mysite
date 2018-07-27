@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    个人中心
+{% endblock %}
+
+
+{% block nav_home_active %}active{% endblock %}
+
+{% block header_extends %}
+	<link rel="stylesheet" href="{% static 'user/user.css' %}">
+{% endblock %}
+
+
+{% block content %}
+	<div class="header-banner">
+		<div class="container">
+			<div class="home-undernav">
+				<h3>个人中心</h3>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
+				{% if user.is_authenticated %}
+					<div class="user-info">
+						<div class="well well-sm">
+							<p>你好，{{ user.get_nickname_or_username }}。你可以在这里查看和修改自己的个人资料。</p>
+						</div>
+						<ul>
+							<li>用户名：{{ user.username }}</li>
+							<li>昵称：{{ user.profile.nickname }} <a href="{% url 'user:change_nickname' %}?from={{ request.get_full_path }}">更改昵称</a></li>
+							<li>邮箱：{% if user.email %}{{ user.email }}{% else %}未绑定 <a href="{% url 'user:bind_email' %}?from={{ request.get_full_path }}">绑定邮箱</a>{% endif %}</li>
+							<li>上一次登录的时间：{{user.last_login|date:"Y-m-d H:i:s"}}</li>
+							<li><a href="{% url 'user:change_password' %}">修改密码</a></li>
+						</ul>
+					</div>
+				{% else %}
+					<div class="alert alert-info" role="alert">
+						<h4>你已注销，感谢你今天在本站花费了一些宝贵的时间，即将跳转到首页。。。</h4>
+					</div>
+					<script type="text/javascript">
+						function waitHref(){
+							window.location.href = '/';
+						}
+						setTimeout(waitHref,3500);
+					</script>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

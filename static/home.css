@@ -1,0 +1,38 @@
+h1.home-content {
+    font-size: 222%;
+    text-align: center;
+    margin-top: 4em;
+    margin-bottom: 2em;
+}
+
+div#container {
+	margin: 0 auto;
+	height: 20em;
+	min-width: 20em;
+	max-width: 30em;
+}
+
+div.hot-read {
+	text-align: center;
+	margin-top: 2em;
+}
+
+div.header-banner {
+	margin-top: -30px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 20px;
+	background-color: #4F5893
+}
+
+div.home-undernav {
+	text-align: center;
+}
+
+div.home-undernav h1{
+	color: #fff;
+}
+
+div.home-undernav p{
+	color: #fff;
+}

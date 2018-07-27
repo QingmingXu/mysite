@@ -1,0 +1,116 @@
+<!--blog_list.html继承base.html-->
+{% extends 'base.html' %}
+<!--页面标题（XQM Blog）-->
+{% block title %}XQM Blog{% endblock %}
+<!--导航栏中的博客处于激活状态-->
+{% block nav_blog_active %}active{% endblock %}
+<!--加载静态文件-->
+{% load staticfiles %}
+<!--加载评论应用中的自定义模版标签-->
+{% load comment_tags %}
+<!--通过代码块扩展的方式来加载blog.css-->
+{% block header_extends %}
+	<link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+{% endblock %}
+
+<!--页面内容-->
+{% block content %}
+    <div class="header-banner">
+        <div class="container">
+            <div class="home-undernav">
+                <p>在这里你可以查看你想看的的博客</p>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+				<div class="panel panel-default">
+					<div class="panel-heading">{% block blog_list_title %}XQM's blogs{% endblock %}</div>
+					<div class="panel-body">
+						{% for blog in page_of_blogs.object_list %}
+							<div class="blog">
+        						<h3><a href="{% url 'blog:blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
+        						<p class="blog-info">
+        							<span class="glyphicon glyphicon-tag"></span> <a href="{% url 'blog:blog_with_type' blog.blog_type.pk %}">{{ blog.blog_type }}</a>&nbsp;&nbsp;
+        							<span class="glyphicon glyphicon-time"></span> {{ blog.create_time|date:"Y-m-d"}}&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-book"></span> 阅读：{{ blog.get_read_num }}&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-comment"></span> 评论：{% get_comment_count blog %}
+        						</p>
+        						<p>{{ blog.content|safe|truncatechars:50 }}</p>
+        					</div>	
+    					{% endfor %}
+					</div>
+				</div>
+				<div class="paginator">
+					<ul class="pagination" >
+    					<li>
+    						{% if page_of_blogs.has_previous %}
+    							<a href="?page={{page_of_blogs.previous_page_number}}" aria-label="Previous">
+        							<span aria-hidden="true">&laquo;</span>
+      							</a>
+    						{% else %}
+    							<span aria-hidden="true">&laquo;</span>
+    						{% endif %}
+      						
+    					</li>
+
+    					{% for page_num in page_range %}
+    						{% if page_num == page_of_blogs.number %}
+    							<li class="active"><span>{{ page_num }}</span></li>
+    						{% else %}
+    							{% if page_num == '...'%}
+    								<li><span>{{ page_num }}</span></li>
+    							{% else %}
+    								<li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+    							{% endif %}	
+    						{% endif %}
+						{% endfor %}
+
+    					<li>
+    						{% if page_of_blogs.has_next %}
+    							<a href="?page={{page_of_blogs.next_page_number}}" aria-label="Next">
+        							<span aria-hidden="true">&raquo;</span>
+      							</a>
+    						{% else %}
+    							<span aria-hidden="true">&raquo;</span>
+    						{% endif %}
+      						
+    					</li>
+  					</ul>
+					<p>共{{page_of_blogs.paginator.num_pages}}页,当前第{{page_of_blogs.number}}页,共篇{{ blogs|length }}博客</p>
+				</div>
+			</div>
+			<div class="hidden-xs col-sm-4 col-md-3 col-lg-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">博客分类</div>
+					<div class="panel-body">
+						<ul class="blog-types">
+							{% for blog_type in blog_types %}
+								 <li><span class="glyphicon glyphicon-tag"></span> <a href="{% url 'blog:blog_with_type' blog_type.pk %}">{{blog_type.type_name}}({{ blog_type.blog_count_with_type }})</a></li>
+							{% empty %}
+								<li>暂无分类</li>	
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">日期归档</div>
+                    <div class="panel-body">
+                        <ul class="blog-dates">
+                            {% for blog_date, blog_count in blog_dates.items %}
+                                <li><a href="{% url 'blog:blog_with_date' blog_date.year blog_date.month %}"><span class="glyphicon glyphicon-time"></span> {{ blog_date|date:"Y年m月"}}({{ blog_count }})</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+
+
+    
+{% endblock %}
+
+
+

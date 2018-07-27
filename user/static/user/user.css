@@ -1,0 +1,24 @@
+div.user-info ul{
+	list-style-type: none;
+}
+
+div.header-banner {
+	margin-top: -30px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 20px;
+	background-color: #4F5893
+}
+
+div.home-undernav {
+	text-align: center;
+}
+
+div.home-undernav h4{
+	color: #fff;
+}
+
+div.well p{
+	text-align: center;
+	padding-top: 0.8em;
+}
